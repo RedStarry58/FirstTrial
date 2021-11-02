@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <h1>{{ question.subject }}</h1>
+
+    <div>
+        {{ question.content }}
+    </div>
+
+    <h5>{{ question.answer_set.count }}개의 답변이 있습니다.</h5>
+    <div>
+        <ul>
+            {% for answer in question.answer_set.all %}
+            <li>{{ answer.content }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <br>
+    <div>답연영역</div>
+    <form action="{% url 'App_Board:answer_create' question.id %}" method="POST">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+            {% if field.errors %}
+            <strong>{{ field.label }}</strong>
+            {{ field.errors }}
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <textarea {% if not user.is_authenticated %}disabled{% endif %} name="content" id="content" class="form-control"
+            rows="10"></textarea>
+        <input type="submit" value="답변등록">
+    </form>
+{%endblock%}

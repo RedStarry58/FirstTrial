@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='stylesheet' type='text/css' href="{% static 'style.css'%}?after">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+<div >메인영역입니다</div>
+{% if user.is_authenticated %}
+    <div><a href="{% url 'LogService:logout' %}">{{user.username}}로그아웃</a></div>
+{% else %}
+    <div><a href="{% url 'LogService:login' %}">로그인</a></div>
+{%endif%}
+{% block content %}
+{% endblock %}
+<script type='text/javascript' src="{% static 'javascript.js' %}?after"></script>
+</body>
+
+</html>
